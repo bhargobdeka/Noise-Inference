@@ -1,6 +1,6 @@
  clear;clc;
 T=1000;                 %Time-serie length
-  
+
 x_true=zeros(2,T);      %Initialization of the vector of true values
 x_true(:,1)=[0;0];        %Initialization of the vector of true values at t=N
 y=zeros(1,T);           %Initialization of the vector of observations
@@ -50,7 +50,7 @@ sW_AR         = zeros(1,N);
       sW_AR(n) = sqrt(w2hat_sample);
       Q          = blkdiag(sW_LL^2, sW_AR(n)^2);        %sW_AR for non-initialisation
     %YT = zeros(T,1);
-    
+
     for t = 2:T
         x_true(:,t) = mvnrnd(A*x_true(:,t-1),Q);
         YT(:,t)     = x_true(1,t) + x_true(2,t) + normrnd(0,sV);
@@ -58,10 +58,10 @@ sW_AR         = zeros(1,N);
     %plot(YT)
     %% State estimation
     EX=zeros(4,T);                               %   X  = [X^LL  X^AR  W  hat(W^2)]
-    EX(:,1)=[0 0 nan mw2]';                      
-    PX(:,:,1)=diag([1,1,nan,sw2^2]);               
+    EX(:,1)=[0 0 nan mw2]';
+    PX(:,:,1)=diag([1,1,nan,sw2^2]);
 
-    %% Prediction 
+    %% Prediction
     for t=2:T
         Ep       = [EX(1,t-1);phi * EX(2,t-1); 0];              % mu_t|t-1
 %         s_w_sq   = EX(4,t-1)+ PX(4,4,t-1)./(4*EX(4,t-1))+ 0.5*PX(4,4,t-1)*(1/(16*EX(4,t-1)^3)) + PX(4,4,t-1)^2./(64*EX(4,t-1)^3) - 2*sqrt(EX(4,t-1))*(PX(4,4,t-1)/8)*EX(4,t-1)^(-1.5);
@@ -105,13 +105,13 @@ sW_AR         = zeros(1,N);
        SY1      = PX(4,4,t-1) + s_w2_sq + s_w2;
        SYX1     = PX(4,4,t-1);
        K1       = SYX1/SY1;
-       
+
    %% Smoother Equations
        E_W2_pos      = m_w2;
        E_W2_prior    = my1;
        C_W2_W2hat    = SYX1;
        P_W2_prior    = 3*PX(4,4,t-1) + s_w2_sq;
-       P_W2_pos      = s_w2; 
+       P_W2_pos      = s_w2;
        J             = C_W2_W2hat/P_W2_prior;
        EX(end,t)     = EX(4,t-1)  + J*(E_W2_pos - E_W2_prior);
        PX(end,end,t) = PX(4,4,t-1) + J^2*P_W2_pos - C_W2_W2hat^2/P_W2_prior;
@@ -138,7 +138,7 @@ sW_AR         = zeros(1,N);
 %       plot(U2(1,:),'b');hold on;plot(L2(1,:),'g');hold on;plot(squeeze(EX_S(:,:,1)),'k');hold on;plot(sW_AR(1).^2*ones(1,1000),'--r')
 %       subplot(3,1,3)
 %       plot(U3(1,:),'b');hold on;plot(L3(1,:),'g');hold on;plot(squeeze(EX_S(:,:,1)),'k');hold on;plot(sW_AR(1).^2*ones(1,1000),'--r')
-%       
+%
   end
 % U1 = squeeze(EX_S + sqrt(PX_S));
 % L1 = squeeze(EX_S - sqrt(PX_S));
@@ -177,15 +177,15 @@ estim_sigma_w_P = PX(4,4,t);
 % s_sigma_w(i) = estim_sigma_w_P;
 % %end
 % %MSE = mean((sW - estim_sigma_w).^2);
-% 
-% 
+%
+%
 % % ratio = [0.25 0.5 0.75 0.85 1 1.5 2 2.5 3 10 100];
 % % sigma_w = [0.0026 0.0030 0.0035 0.0037 0.0039 0.0043 0.0045 0.0048 0.0053 0.0096 0.0114];
 % % s_sigma_w = [1.63e-04 1.87e-04 2.2e-04 2.32e-04 2.45e-04 2.64e-04 2.68e-04 2.77e-04 2.92e-04 4.53e-04 6.21e-04];
 % %  ratio     = [0.1       0.125      0.15     0.20     0.25           0.30     0.40    0.5     0.60    0.70    0.80    0.90    0.95         1      1.5          2       2.5       3         10    ];
 % %  sigma_w   = [4.74     4.4684      4.1392   3.4507   2.8533        2.3887   1.7825   1.4475   1.26    1.1542  1.0944  1.0607  1.0499    1.0418  1.02         1.0202    1.02    1.02     1.015    ];
 % %  s_sigma_w = [0.6056   0.5331      0.4525   0.3062   0.2032        0.1380   0.0716   0.0716   0.0295  0.0219  0.0171  0.0127  0.0127    0.0116  0.0061      0.0042     0.0034    0.0030     0.0021];
-% 
+%
 % figure;
 % patch([Qr,fliplr(Qr)],[sigma_w+s_sigma_w,fliplr(sigma_w-s_sigma_w)],'g','FaceAlpha',0.2,'EdgeColor','none');hold on;
 % plot(Qr,sigma_w,'k');hold on; plot(Qr,repmat(sW_AR^2,[1,length(Qr)]),'-.r','Linewidth',1.5);
@@ -203,7 +203,6 @@ patch([t,fliplr(t)],[xw+sX,fliplr(xw-sX)],'g','FaceAlpha',0.2,'EdgeColor','none'
 hold on;
 plot(t,xw,'k')
 hold off
-
 ylim([sW_AR^2-sW_AR/2,sW_AR^2+sW_AR^2/2])
 
 xlabel('$Epoch$','Interpreter','latex')
