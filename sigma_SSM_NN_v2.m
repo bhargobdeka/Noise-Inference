@@ -12,7 +12,7 @@ sW_AR = 1;               % standard deviation, sigma_(AR,w)
 sW_LL = 1e-12;
 sV = 0.01;
 %sV    = sW_AR./Qr(i);
-phi   = 0.9;
+phi   = 0.8;
 R     = sV^2;
 rng('default')
 N     = 10000;
