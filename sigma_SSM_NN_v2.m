@@ -4,7 +4,7 @@ T=1000;                 %Time-serie length
 x_true=zeros(2,T);      %Initialization of the vector of true values
 x_true(:,1)=[0;0];        %Initialization of the vector of true values at t=N
 y=zeros(1,T);           %Initialization of the vector of observations
-Qr    = [0.1 0.125 0.15 0.20 0.25 0.30 0.40 0.50 0.60 0.70 0.80 0.90 0.95 1 1.5 2 2.5 3 10 100];
+Qr        = [0.1 0.125 0.15 0.20 0.25 0.30 0.40 0.50 0.60 0.70 0.80 0.90 0.95 1 1.5 2 2.5 3 10 100];
 sigma_w   = zeros(1,length(Qr));
 s_sigma_w = zeros(1,length(Qr));
 %for i = 1:length(Qr)
